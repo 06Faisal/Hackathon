@@ -20,16 +20,23 @@ FREQ = re.compile(r"(once daily(?: in the morning)?|twice daily(?: with meals)?|
 DUR = re.compile(r"for (\d+ (?:days|weeks))", re.I)
 ACTIONS = {"start": "start", "continue": "continue", "increase": "increase",
            "decrease": "decrease", "reduce": "decrease", "stop": "stop"}
-FU_KEYS = [("lab", r"blood test|lab|hba1c|electrolytes"), ("imaging", r"scan|x-ray|echo|mri|ct\b"),
+FU_KEYS = [("lab", r"blood test|lab|hba1c|electrolytes"), ("imaging", r"screening|scan|x-ray|echo|mri|ct\b"),
            ("therapy", r"physiotherapy"), ("procedure", r"suture|wound check"),
            ("appointment", r"appointment|clinic|examination|follow-up")]
 
 def _plan_lines(note: str):
     plan = note.split("PLAN:", 1)[-1]
-    for ln in plan.splitlines():
-        ln = re.sub(r"^\s*\d+\.\s*", "", ln).strip()
-        if ln:
-            yield ln
+    items, numbered = [], False
+    for raw in plan.splitlines():
+        raw = raw.strip()
+        if not raw: continue
+        if re.match(r"^\d+\.\s*", raw):          # new numbered item
+            numbered = True; items.append(re.sub(r"^\d+\.\s*", "", raw))
+        elif numbered and items and not items[-1].endswith("."):
+            items[-1] += " " + raw                  # PDF line-wrap: continuation of the previous item
+        else:
+            items.append(raw)
+    yield from (i for i in items if i)
 
 def _rule_extract(pid: str, note: str) -> ExtractedFacts:
     f = ExtractedFacts(patient_id=pid)
@@ -40,7 +47,8 @@ def _rule_extract(pid: str, note: str) -> ExtractedFacts:
         first = low.split()[0]
         drug = re.search(r"([A-Z][a-z]+)\b(?=.*(?:\d+\s?mg|\.$))", ln)
         if first in ACTIONS or (DOSE.search(ln) and not DATE.search(ln)):
-            name = re.search(r"(?:Start|Continue|Increase|Decrease|Reduce|Stop)?\s*([A-Z][a-z]+)", ln).group(1)
+            nm = re.search(r"(?:Start|Continue|Increase|Decrease|Reduce|Stop)?\s*([A-Z][A-Za-z0-9-]+)", ln)
+            name = nm.group(1) if nm else ln.split()[min(1, len(ln.split()) - 1)].strip(".,").title()
             m = Medication(name=name, action=ACTIONS.get(first, "take"),
                            dose=(DOSE.search(ln).group(1) if DOSE.search(ln) else None),
                            frequency=(FREQ.search(ln).group(1) if FREQ.search(ln) else None),

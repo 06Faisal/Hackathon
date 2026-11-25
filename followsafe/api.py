@@ -1,6 +1,6 @@
 """FastAPI backend. Run: uvicorn followsafe.api:app --reload  then open http://localhost:8000"""
 import os, pathlib
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from . import db, pipeline
@@ -80,6 +80,17 @@ def add_patient(p: PatientIn):
         raise HTTPException(400, str(e))
     return {"ok": True, "patient_id": r["patient_id"], "passed": r["verification"]["passed"],
             "flags": [x["status"] for x in r["reconciliation"] if x["status"] != "matched"]}
+
+@app.post("/api/extract-pdf")
+async def extract_pdf(request: Request):
+    """Body = raw PDF bytes. Returns the note text for the nurse to review before adding the patient."""
+    from .agents import ocr
+    data = await request.body()
+    if not data.startswith(b"%PDF"): raise HTTPException(400, "Not a PDF file")
+    if len(data) > 4_000_000: raise HTTPException(413, "PDF too large (max 4 MB)")
+    try: text = ocr.pdf_bytes_to_text(data)
+    except ValueError as e: raise HTTPException(422, str(e))
+    return {"text": text.strip()}
 
 @app.get("/api/portal/{pid}")
 def portal(pid: str):

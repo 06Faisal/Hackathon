@@ -271,7 +271,7 @@ function openAdd(){cur=null;$('dt').textContent='Add patient';$('dtags').innerHT
   <div><label>Reading level</label><select id="fLit"><option value="basic">Basic</option><option value="standard">Standard</option></select></div></div></div>
  <div class="box form"><h4>Discharge note</h4><textarea id="fNote" placeholder="Paste the de-identified discharge note. Put the instructions under PLAN:"></textarea>
   <div style="display:flex;gap:8px;margin-top:8px;align-items:center"><button class="btn g s" onclick="loadExample()">Load example note</button>
-  <label class="btn g s" style="margin:0">Load .txt file<input type="file" accept=".txt" style="display:none" onchange="loadFile(this)"></label>
+  <label class="btn g s" style="margin:0">Upload .txt or .pdf<input type="file" accept=".txt,.pdf,application/pdf" style="display:none" onchange="loadFile(this)"></label>
   <span class="aud">No real names or phone numbers.</span></div></div>
  <div class="box form"><h4>Booked tasks (from the scheduling system)</h4><div class="aud">What is actually booked. FollowSafe checks these against the note.</div>
   <div id="fTasks">${taskRow()}</div><button class="btn g s" style="margin-top:10px" onclick="$('fTasks').insertAdjacentHTML('beforeend',taskRow())">＋ Add task</button></div>`;
@@ -279,7 +279,12 @@ function openAdd(){cur=null;$('dt').textContent='Add patient';$('dtags').innerHT
  $('shade').classList.add('on');$('drawer').classList.add('on');$('fPid').focus()}
 function loadExample(){$('fPid').value=$('fPid').value||'P004';$('fNote').value=EXAMPLE;
  $('fTasks').innerHTML=taskRow({type:'lab',description:'Lipid profile blood test',due_date:'2027-01-12'})+taskRow({type:'imaging',description:'Chest X-ray',due_date:'2027-01-05'})}
-function loadFile(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('fNote').value=r.result};r.readAsText(f)}
+async function loadFile(inp){const f=inp.files[0];if(!f)return;const n=$('fNote');
+ if(/\.pdf$/i.test(f.name)||f.type==='application/pdf'){const old=n.value;n.value='Reading PDF…';
+  try{const j=await api('/api/extract-pdf',{method:'POST',headers:{'Content-Type':'application/pdf'},body:f});n.value=j.text||'';if(!j.text)alert('No text found in this PDF')}
+  catch(e){n.value=old;alert('PDF upload failed: '+e.message)}
+  inp.value='';return}
+ const r=new FileReader();r.onload=()=>{n.value=r.result};r.readAsText(f);inp.value=''}
 async function saveAdd(){const tasks=[...$('fTasks').children].map(r=>{const [s,d,dt,by]=r.querySelectorAll('select,input');return{type:s.value,description:d.value.trim(),due_date:dt.value||null,authorized_by:by.value.trim()||null}}).filter(t=>t.description);
  const body={patient_id:$('fPid').value.trim(),language:$('fLang').value,literacy:$('fLit').value,note:$('fNote').value,tasks};
  $('fErr').textContent='';$('fSave').disabled=true;$('fSave').textContent='Running pipeline…';

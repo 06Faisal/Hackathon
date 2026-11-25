@@ -32,3 +32,14 @@ def generate_text(prompt: str) -> str:
     resp = _retry(lambda: client.models.generate_content(model=MODEL, contents=prompt,
                                           config={"temperature": 0.2}))
     return resp.text
+
+def pdf_to_text(data: bytes) -> str:
+    """Read a (scanned) PDF with Gemini. Used only when the PDF has no text layer."""
+    from google import genai
+    from google.genai import types
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"], http_options={"api_version": "v1beta"})
+    resp = _retry(lambda: client.models.generate_content(model=MODEL, contents=[
+        types.Part.from_bytes(data=data, mime_type="application/pdf"),
+        "Transcribe this clinical note exactly as plain text. Do not summarise or add anything."],
+        config={"temperature": 0}))
+    return resp.text

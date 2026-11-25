@@ -6,6 +6,8 @@ from .models import Task
 from . import db, llm
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+import os
+OUT = pathlib.Path("/tmp/followsafe") if os.getenv("VERCEL") else ROOT / "outputs"  # Vercel: only /tmp is writable
 PRIORITY = {"blocked_draft": 1, "date_mismatch": 1, "missing_task": 2, "unsupported_task": 2, "draft": 3, "matched": 4}
 
 def run_patient(pid, note_path, cfg):
@@ -36,18 +38,18 @@ def run_patient(pid, note_path, cfg):
             "llm_mode": llm.MODEL if llm.available() else "offline-rule-fallback",
             "seconds": round(time.time() - t0, 3)}
 
-RESULTS = ROOT / "outputs" / "pipeline_results.json"
+RESULTS = OUT / "pipeline_results.json"
 SEED = ROOT / "data" / "tasks.json"            # sample data: never modified
 SEED_NOTES = ROOT / "data" / "notes"
-CFG = ROOT / "outputs" / "patients.json"       # live patients + booked tasks (doctor decisions land here)
-NOTES = ROOT / "outputs" / "notes"             # notes for patients added in the app
+CFG = OUT / "patients.json"       # live patients + booked tasks (doctor decisions land here)
+NOTES = OUT / "notes"             # notes for patients added in the app
 PID_RE = re.compile(r"^[A-Za-z0-9_-]{1,20}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 TASK_TYPES = {"lab", "appointment", "imaging", "therapy", "procedure", "other"}
 
 def load_cfg():
     if not CFG.exists():
-        CFG.parent.mkdir(exist_ok=True); CFG.write_text(SEED.read_text(encoding="utf-8"), encoding="utf-8")
+        CFG.parent.mkdir(parents=True, exist_ok=True); CFG.write_text(SEED.read_text(encoding="utf-8"), encoding="utf-8")
     return json.loads(CFG.read_text(encoding="utf-8"))
 
 def note_path(pid):
@@ -62,7 +64,7 @@ def reset_demo():
     return run_all()
 def save_cfg(c): CFG.write_text(json.dumps(c, indent=1, ensure_ascii=False), encoding="utf-8")
 def _results(): return json.loads(RESULTS.read_text(encoding="utf-8")) if RESULTS.exists() else []
-def _save_results(res): RESULTS.parent.mkdir(exist_ok=True); RESULTS.write_text(json.dumps(res, indent=2, ensure_ascii=False), encoding="utf-8")
+def _save_results(res): RESULTS.parent.mkdir(parents=True, exist_ok=True); RESULTS.write_text(json.dumps(res, indent=2, ensure_ascii=False), encoding="utf-8")
 
 def run_all(reset=True):
     if reset: db.reset()

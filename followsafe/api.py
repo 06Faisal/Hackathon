@@ -46,25 +46,6 @@ class PatientIn(BaseModel):
     literacy: str = "basic"
     tasks: list[TaskIn] = []
 
-@app.get("/_debug")
-def debug():
-    """Diagnostic route – remove before go-live."""
-    import os
-    candidates = [
-        str(pathlib.Path(__file__).resolve().parents[1] / "static" / "index.html"),
-        str(pathlib.Path(os.getcwd()) / "static" / "index.html"),
-        "/var/task/static/index.html",
-    ]
-    return {
-        "STATIC": str(STATIC),
-        "STATIC_exists": STATIC.exists(),
-        "index_exists": (STATIC / "index.html").exists(),
-        "cwd": os.getcwd(),
-        "__file__": __file__,
-        "env_root": os.environ.get("FOLLOWSAFE_ROOT"),
-        "candidates": {c: pathlib.Path(c).exists() for c in candidates},
-    }
-
 @app.get("/")
 def index():
     html_path = STATIC / "index.html"

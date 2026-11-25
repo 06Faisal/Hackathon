@@ -1,12 +1,32 @@
 """FastAPI backend. Run: uvicorn followsafe.api:app --reload  then open http://localhost:8000"""
-import pathlib
+import os, pathlib
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from . import db, pipeline
 
 app = FastAPI(title="FollowSafe", description="Human-in-the-loop follow-up coordinator. Never sends messages.")
-STATIC = pathlib.Path(__file__).resolve().parents[1] / "static"
+
+# Resolve static dir – try FOLLOWSAFE_ROOT env var first (set by api/index.py on Vercel),
+# then walk up from __file__, then fall back to cwd.
+def _find_static() -> pathlib.Path:
+    env_root = os.environ.get("FOLLOWSAFE_ROOT")
+    candidates = []
+    if env_root:
+        candidates.append(pathlib.Path(env_root) / "static")
+    candidates += [
+        pathlib.Path(__file__).resolve().parents[1] / "static",  # normal install
+        pathlib.Path(__file__).resolve().parents[0] / "static",  # flat layout
+        pathlib.Path(os.getcwd()) / "static",                    # cwd fallback
+        pathlib.Path("/var/task/static"),                        # Vercel Lambda path
+    ]
+    for p in candidates:
+        if p.exists():
+            return p
+    # Return best guess even if not found yet (may still work at request time)
+    return candidates[0]
+
+STATIC = _find_static()
 
 class Action(BaseModel):
     action: str
@@ -26,14 +46,33 @@ class PatientIn(BaseModel):
     literacy: str = "basic"
     tasks: list[TaskIn] = []
 
+@app.get("/_debug")
+def debug():
+    """Diagnostic route – remove before go-live."""
+    import os
+    candidates = [
+        str(pathlib.Path(__file__).resolve().parents[1] / "static" / "index.html"),
+        str(pathlib.Path(os.getcwd()) / "static" / "index.html"),
+        "/var/task/static/index.html",
+    ]
+    return {
+        "STATIC": str(STATIC),
+        "STATIC_exists": STATIC.exists(),
+        "index_exists": (STATIC / "index.html").exists(),
+        "cwd": os.getcwd(),
+        "__file__": __file__,
+        "env_root": os.environ.get("FOLLOWSAFE_ROOT"),
+        "candidates": {c: pathlib.Path(c).exists() for c in candidates},
+    }
+
 @app.get("/")
 def index():
     html_path = STATIC / "index.html"
+    # Try re-resolving at request time in case module-load path was wrong
     if not html_path.exists():
-        # Fallback: try relative to CWD (Vercel Lambda working dir)
-        html_path = pathlib.Path("static") / "index.html"
+        html_path = _find_static() / "index.html"
     if not html_path.exists():
-        raise HTTPException(404, "index.html not found")
+        raise HTTPException(500, f"index.html not found; STATIC={STATIC}; exists={STATIC.exists()}")
     return FileResponse(str(html_path))
 
 @app.post("/api/run")

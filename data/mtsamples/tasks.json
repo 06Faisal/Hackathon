@@ -1,0 +1,115 @@
+{
+ "MT-KNEE": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "lab",
+    "description": "INR lab check twice weekly while on Coumadin",
+    "due_date": null,
+    "authorized_by": "Orthopedics"
+   },
+   {
+    "id": "T2",
+    "type": "appointment",
+    "description": "Follow up with Dr. ABC",
+    "due_date": "in one week",
+    "authorized_by": "Orthopedics"
+   }
+  ]
+ },
+ "MT-GIBLEED": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "lab",
+    "description": "CBC and INR blood test",
+    "due_date": null,
+    "authorized_by": "Medicine"
+   },
+   {
+    "id": "T2",
+    "type": "appointment",
+    "description": "Outpatient PMD, GI and Cardiology followup",
+    "due_date": null,
+    "authorized_by": "Medicine"
+   }
+  ]
+ },
+ "MT-CHF": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "appointment",
+    "description": "Office follow-up visit",
+    "due_date": "in 1 week",
+    "authorized_by": "Medicine"
+   },
+   {
+    "id": "T2",
+    "type": "lab",
+    "description": "Repeat chest x-ray",
+    "due_date": "in 2 weeks",
+    "authorized_by": "Medicine"
+   }
+  ]
+ },
+ "MT-CELLULITIS": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "appointment",
+    "description": "Followup office visit",
+    "due_date": "in a couple of weeks",
+    "authorized_by": "Medicine"
+   }
+  ]
+ },
+ "MT-HIP": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "appointment",
+    "description": "Follow up Dr. X",
+    "due_date": "in one to two weeks",
+    "authorized_by": "Orthopedics"
+   },
+   {
+    "id": "T2",
+    "type": "therapy",
+    "description": "Transfer to ABC for rehab with PT/OT",
+    "due_date": null,
+    "authorized_by": "Orthopedics"
+   }
+  ]
+ },
+ "MT-GALLBLADDER": {
+  "language": "en",
+  "literacy": "basic",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "appointment",
+    "description": "Follow up with Dr. X",
+    "due_date": "in 2 weeks",
+    "authorized_by": "Surgery"
+   },
+   {
+    "id": "T2",
+    "type": "lab",
+    "description": "Follow up urinalysis and cultures",
+    "due_date": null,
+    "authorized_by": "Surgery"
+   }
+  ]
+ }
+}

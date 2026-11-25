@@ -1,0 +1,9 @@
+PROGRESS NOTE (de-identified)
+Patient ID: P002  Age: 52  Sex: F  Specialty: Endocrinology
+Assessment: Type 2 diabetes, poorly controlled. HbA1c 9.1%.
+PLAN:
+1. Increase Metformin to 1000 mg twice daily with meals.
+2. Start Empagliflozin 10 mg once daily.
+3. HbA1c blood test on 2027-02-20.
+4. Dilated eye examination with ophthalmology on 2026-12-15.
+5. Seek urgent care if signs of dehydration, vomiting or abdominal pain.

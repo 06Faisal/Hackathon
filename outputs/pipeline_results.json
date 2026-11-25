@@ -1,0 +1,275 @@
+[
+  {
+    "patient_id": "P001",
+    "facts": {
+      "patient_id": "P001",
+      "medications": [
+        {
+          "name": "Furosemide",
+          "action": "start",
+          "dose": "40 mg",
+          "frequency": "once daily in the morning",
+          "duration": null,
+          "source_line": "Start Furosemide 40 mg orally once daily in the morning."
+        },
+        {
+          "name": "Metoprolol",
+          "action": "continue",
+          "dose": "25 mg",
+          "frequency": "twice daily",
+          "duration": null,
+          "source_line": "Continue Metoprolol 25 mg twice daily."
+        },
+        {
+          "name": "Amlodipine",
+          "action": "stop",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "Stop Amlodipine."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "lab",
+          "description": "Repeat serum electrolytes (BMP) blood test",
+          "due_date": "2026-12-02",
+          "source_line": "Repeat serum electrolytes (BMP) blood test on 2026-12-02."
+        },
+        {
+          "type": "appointment",
+          "description": "Follow-up appointment with cardiology clinic",
+          "due_date": "2026-12-09",
+          "source_line": "Follow-up appointment with cardiology clinic on 2026-12-09."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "Weigh yourself daily. Return to ER immediately if weight gain more than 2 kg in 2 days, chest pain or severe shortness of breath.",
+          "source_line": "Weigh yourself daily. Return to ER immediately if weight gain more than 2 kg in 2 days, chest pain or severe shortness of breath."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Serum electrolytes (BMP) blood test",
+        "note_date": "2026-12-02",
+        "task_date": "2026-12-02",
+        "task_id": "T1"
+      },
+      {
+        "status": "matched",
+        "description": "Cardiology clinic follow-up",
+        "note_date": "2026-12-09",
+        "task_date": "2026-12-09",
+        "task_id": "T2"
+      },
+      {
+        "status": "unsupported_task",
+        "description": "Echocardiogram",
+        "note_date": null,
+        "task_date": "2026-12-20",
+        "task_id": "T3"
+      }
+    ],
+    "draft": {
+      "patient_id": "P001",
+      "language": "en",
+      "text": "Dear patient,\nThank you for visiting us. Here is a summary of what your doctor asked you to do.\n\nYour medicines:\n- Start taking Furosemide 40 mg once daily in the morning.\n- Keep taking Metoprolol 25 mg twice daily.\n- Stop taking Amlodipine.\n\nYour next tests and visits:\n- Repeat serum electrolytes (BMP) blood test on 2026-12-02.\n- Follow-up appointment with cardiology clinic on 2026-12-09.\n\nWarning signs:\nGet medical help immediately if you notice any of the warning signs below.\n- Weigh yourself daily. Return to ER immediately if weight gain more than 2 kg in 2 days, chest pain or severe shortness of breath.\n\nHeart failure tip: weigh yourself every morning after using the toilet and before breakfast, and write it down.\n\nIf you have questions, please call the care coordination desk.",
+      "sources": [
+        "TPL-LAB",
+        "TPL-APPT",
+        "TPL-WARN",
+        "EDU-HF"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "offline-rule-fallback",
+    "seconds": 0.006
+  },
+  {
+    "patient_id": "P002",
+    "facts": {
+      "patient_id": "P002",
+      "medications": [
+        {
+          "name": "Metformin",
+          "action": "increase",
+          "dose": "1000 mg",
+          "frequency": "twice daily with meals",
+          "duration": null,
+          "source_line": "Increase Metformin to 1000 mg twice daily with meals."
+        },
+        {
+          "name": "Empagliflozin",
+          "action": "start",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "duration": null,
+          "source_line": "Start Empagliflozin 10 mg once daily."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "lab",
+          "description": "HbA1c blood test",
+          "due_date": "2027-02-20",
+          "source_line": "HbA1c blood test on 2027-02-20."
+        },
+        {
+          "type": "appointment",
+          "description": "Dilated eye examination with ophthalmology",
+          "due_date": "2026-12-15",
+          "source_line": "Dilated eye examination with ophthalmology on 2026-12-15."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "Seek urgent care if signs of dehydration, vomiting or abdominal pain.",
+          "source_line": "Seek urgent care if signs of dehydration, vomiting or abdominal pain."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "HbA1c blood test",
+        "note_date": "2027-02-20",
+        "task_date": "2027-02-20",
+        "task_id": "T1"
+      },
+      {
+        "status": "missing_task",
+        "description": "Dilated eye examination with ophthalmology",
+        "note_date": "2026-12-15",
+        "task_date": null,
+        "task_id": null
+      }
+    ],
+    "draft": {
+      "patient_id": "P002",
+      "language": "hi",
+      "text": "Dear patient,\nThank you for visiting us. Here is a summary of what your doctor asked you to do.\n\nआपकी दवाइयाँ (Your medicines):\n- Increase Metformin to 1000 mg twice daily with meals.\n- Start taking Empagliflozin 10 mg once daily.\n\nआपकी अगली जाँच और विज़िट (Your next tests and visits):\n- HbA1c blood test on 2027-02-20.\n- Dilated eye examination with ophthalmology on 2026-12-15.\n\nखतरे के संकेत (Warning signs):\nGet medical help immediately if you notice any of the warning signs below.\n- Seek urgent care if signs of dehydration, vomiting or abdominal pain.\n\nDiabetes tip: take Metformin with food to reduce stomach upset, and drink enough water.\n\nIf you have questions, please call the care coordination desk.",
+      "sources": [
+        "TPL-WARN",
+        "TPL-LAB",
+        "EDU-DM",
+        "TPL-APPT"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "offline-rule-fallback",
+    "seconds": 0.004
+  },
+  {
+    "patient_id": "P003",
+    "facts": {
+      "patient_id": "P003",
+      "medications": [
+        {
+          "name": "Apixaban",
+          "action": "start",
+          "dose": "2.5 mg",
+          "frequency": "twice daily",
+          "duration": "14 days",
+          "source_line": "Start Apixaban 2.5 mg twice daily for 14 days."
+        },
+        {
+          "name": "Paracetamol",
+          "action": "take",
+          "dose": "650 mg",
+          "frequency": "every 6 hours as needed",
+          "duration": null,
+          "source_line": "Paracetamol 650 mg every 6 hours as needed for pain."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "therapy",
+          "description": "Physiotherapy session",
+          "due_date": "2026-11-28",
+          "source_line": "Physiotherapy session on 2026-11-28."
+        },
+        {
+          "type": "procedure",
+          "description": "Wound check and suture removal",
+          "due_date": "2026-12-05",
+          "source_line": "Wound check and suture removal on 2026-12-05."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "Return to ER immediately if calf swelling, fever above 38 C or wound discharge.",
+          "source_line": "Return to ER immediately if calf swelling, fever above 38 C or wound discharge."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Physiotherapy session",
+        "note_date": "2026-11-28",
+        "task_date": "2026-11-28",
+        "task_id": "T1"
+      },
+      {
+        "status": "date_mismatch",
+        "description": "Wound check and suture removal",
+        "note_date": "2026-12-05",
+        "task_date": "2026-12-06",
+        "task_id": "T2"
+      }
+    ],
+    "draft": {
+      "patient_id": "P003",
+      "language": "en",
+      "text": "Dear patient,\nThank you for visiting us. Here is a summary of what your doctor asked you to do.\n\nYour medicines:\n- Start taking Apixaban 2.5 mg twice daily for 14 days.\n- Take Paracetamol 650 mg every 6 hours as needed.\n\nYour next tests and visits:\n- Physiotherapy session on 2026-11-28.\n- Wound check and suture removal on 2026-12-05.\n\nWarning signs:\nGet medical help immediately if you notice any of the warning signs below.\n- Return to ER immediately if calf swelling, fever above 38 C or wound discharge.\n\nKnee surgery tip: keep the wound clean and dry, and do the exercises your physiotherapist shows you.\n\nIf you have questions, please call the care coordination desk.",
+      "sources": [
+        "EDU-KNEE",
+        "TPL-WARN",
+        "TPL-APPT",
+        "EDU-DM"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "offline-rule-fallback",
+    "seconds": 0.004
+  }
+]

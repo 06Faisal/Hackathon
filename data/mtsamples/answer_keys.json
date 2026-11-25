@@ -1,0 +1,64 @@
+{
+ "MT-KNEE": {
+  "meds": [
+   "coumadin",
+   "vicodin"
+  ],
+  "followups": 2,
+  "warnings": 1
+ },
+ "MT-GIBLEED": {
+  "meds": [
+   "coumadin",
+   "feosol",
+   "multivitamin",
+   "protonix",
+   "kcl",
+   "lasix",
+   "atenolol",
+   "synthroid",
+   "actos",
+   "mevacor",
+   "lisinopril"
+  ],
+  "followups": 2,
+  "warnings": 0
+ },
+ "MT-CHF": {
+  "meds": [
+   "lasix",
+   "potassium chloride",
+   "atenolol",
+   "aspirin",
+   "ditropan",
+   "colace"
+  ],
+  "followups": 1,
+  "warnings": 1
+ },
+ "MT-CELLULITIS": {
+  "meds": [
+   "doxycycline",
+   "percocet",
+   "oxycontin"
+  ],
+  "followups": 1,
+  "warnings": 0
+ },
+ "MT-HIP": {
+  "meds": [
+   "aspirin"
+  ],
+  "followups": 2,
+  "warnings": 0
+ },
+ "MT-GALLBLADDER": {
+  "meds": [
+   "omeprazole",
+   "colace",
+   "percocet"
+  ],
+  "followups": 2,
+  "warnings": 1
+ }
+}

@@ -1,0 +1,45 @@
+{
+  "llm_mode": "gemini-3.5-flash",
+  "extraction": [
+    {
+      "patient": "P001",
+      "meds": "3/3",
+      "dates": "2/2",
+      "warnings": "1/1",
+      "draft_verified": true,
+      "seconds": 56.314
+    },
+    {
+      "patient": "P002",
+      "meds": "2/2",
+      "dates": "2/2",
+      "warnings": "1/1",
+      "draft_verified": false,
+      "seconds": 68.429
+    },
+    {
+      "patient": "P003",
+      "meds": "2/2",
+      "dates": "2/2",
+      "warnings": "1/1",
+      "draft_verified": true,
+      "seconds": 18.66
+    }
+  ],
+  "mismatch_flags_found": [
+    [
+      "P001",
+      "unsupported_task"
+    ],
+    [
+      "P002",
+      "missing_task"
+    ],
+    [
+      "P003",
+      "date_mismatch"
+    ]
+  ],
+  "mismatch_recall": "3/3",
+  "fidelity_lock_fault_injection": "12/12 corrupted drafts blocked"
+}

@@ -1,0 +1,95 @@
+"""FastAPI backend. Run: uvicorn followsafe.api:app --reload  then open http://localhost:8000"""
+import pathlib
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from pydantic import BaseModel
+from . import db, pipeline
+
+app = FastAPI(title="FollowSafe", description="Human-in-the-loop follow-up coordinator. Never sends messages.")
+STATIC = pathlib.Path(__file__).resolve().parents[1] / "static"
+
+class Action(BaseModel):
+    action: str
+    role: str = "nurse"          # nurse | doctor (demo role switch; real login is future work)
+    body: str | None = None
+
+class TaskIn(BaseModel):
+    type: str = "other"
+    description: str = ""
+    due_date: str | None = None
+    authorized_by: str | None = None
+
+class PatientIn(BaseModel):
+    patient_id: str
+    note: str
+    language: str = "en"
+    literacy: str = "basic"
+    tasks: list[TaskIn] = []
+
+@app.get("/")
+def index(): return FileResponse(STATIC / "index.html")
+
+@app.post("/api/run")
+def run(): return pipeline.run_all()
+
+@app.post("/api/reset-demo")
+def reset_demo(): return pipeline.reset_demo()
+
+@app.get("/api/queue")
+def queue(status: str | None = None, patient_id: str | None = None):
+    return db.items(status, patient_id)
+
+@app.get("/api/stats")
+def stats(): return db.stats()
+
+@app.get("/api/patients")
+def patient_list(): return pipeline.patients()
+
+@app.post("/api/patients")
+def add_patient(p: PatientIn):
+    try:
+        r = pipeline.add_patient(p.patient_id, p.note, p.language, p.literacy, [t.model_dump() for t in p.tasks])
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return {"ok": True, "patient_id": r["patient_id"], "passed": r["verification"]["passed"],
+            "flags": [x["status"] for x in r["reconciliation"] if x["status"] != "matched"]}
+
+@app.get("/api/portal/{pid}")
+def portal(pid: str):
+    try: return pipeline.portal(pid)
+    except KeyError: raise HTTPException(404, f"unknown patient {pid}")
+
+@app.get("/api/patients/{pid}")
+def patient(pid: str):
+    try: return pipeline.patient(pid)
+    except KeyError: raise HTTPException(404, f"no results for {pid} - run the pipeline first")
+
+class VerifyIn(BaseModel):
+    patient_id: str
+    text: str
+
+@app.post("/api/verify")
+def verify_preview(v: VerifyIn):
+    """Live Fidelity Lock check while staff edit - saves nothing."""
+    from .agents import verifier
+    from .models import ExtractedFacts, Draft
+    p = patient(v.patient_id)
+    return verifier.verify(ExtractedFacts(**p["facts"]), Draft(patient_id=v.patient_id, language=p["language"], text=v.text))
+
+@app.post("/api/queue/{item_id}")
+def act(item_id: int, a: Action):
+    try:
+        item = db.get(item_id)
+        detail = ""
+        if a.action in db.DOCTOR_ONLY:
+            db.check(item, a.action, a.role)          # permission first, then change the booking
+            detail = pipeline.apply_task_decision(item, a.action)
+        db.act(item_id, a.action, a.role, a.body, detail)
+    except PermissionError as e:
+        raise HTTPException(409, str(e))
+    except (KeyError, ValueError) as e:
+        raise HTTPException(400, f"bad request: {e}")
+    return {"ok": True}
+
+@app.get("/api/audit")
+def audit(item_id: int | None = None): return db.audit(item_id)

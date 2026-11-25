@@ -1,0 +1,9 @@
+[
+ {"id":"TPL-MED","topic":"medication change new start stop continue dose","text":"Your doctor has made changes to your medicines. Please follow the list below exactly. Do not change any dose without speaking to your doctor."},
+ {"id":"TPL-LAB","topic":"blood test lab electrolytes hba1c","text":"You need a blood test. Please go to the hospital laboratory on the date shown. Bring this message with you."},
+ {"id":"TPL-APPT","topic":"appointment clinic follow-up visit physiotherapy eye examination wound check","text":"You have a follow-up appointment. Please arrive 15 minutes early and bring your discharge papers."},
+ {"id":"TPL-WARN","topic":"warning emergency return er urgent care","text":"Get medical help immediately if you notice any of the warning signs below."},
+ {"id":"EDU-HF","topic":"heart failure weight daily furosemide","text":"Heart failure tip: weigh yourself every morning after using the toilet and before breakfast, and write it down."},
+ {"id":"EDU-DM","topic":"diabetes metformin empagliflozin hba1c","text":"Diabetes tip: take Metformin with food to reduce stomach upset, and drink enough water."},
+ {"id":"EDU-KNEE","topic":"knee replacement apixaban wound physiotherapy","text":"Knee surgery tip: keep the wound clean and dry, and do the exercises your physiotherapist shows you."}
+]

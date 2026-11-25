@@ -1,0 +1,97 @@
+{
+  "patient_id": "MT-KNEE-SCAN",
+  "facts": {
+    "patient_id": "MT-KNEE-SCAN",
+    "medications": [
+      {
+        "name": "Coudin",
+        "action": "start",
+        "dose": "4 mg",
+        "frequency": "a day",
+        "duration": null,
+        "source_line": "The patient will be discharged home on Coumadin 4 mg a day as the INR was 1.9 on discharge with twice weekly lab checks."
+      },
+      {
+        "name": "Vicodin",
+        "action": "take",
+        "dose": "5/500 mg",
+        "frequency": "q.4-6h",
+        "duration": null,
+        "source_line": "Vicodin 5/500 mg take one to two tablets p.o. q.4-6h."
+      },
+      {
+        "name": "home medications",
+        "action": "continue",
+        "dose": null,
+        "frequency": null,
+        "duration": null,
+        "source_line": "Resume home medications."
+      }
+    ],
+    "follow_ups": [
+      {
+        "type": "lab",
+        "description": "twice weekly lab checks",
+        "due_date": null,
+        "source_line": "The patient will be discharged home on Coumadin 4 mg a day as the INR was 1.9 on discharge with twice weekly lab checks."
+      },
+      {
+        "type": "appointment",
+        "description": "follow up with Dr. ABC",
+        "due_date": "in two - weeks",
+        "source_line": "The patient is to follow up with Dr. ABC in two - weeks."
+      }
+    ],
+    "warnings": [
+      {
+        "text": "Call the office or return to the emergency room for any concerns including increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision.",
+        "source_line": "Call the office or return to the emergency room for any concerns including increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision."
+      }
+    ]
+  },
+  "reconciliation": [
+    {
+      "status": "matched",
+      "description": "INR lab check twice weekly while on Coumadin",
+      "note_date": null,
+      "task_date": null,
+      "task_id": "T1"
+    },
+    {
+      "status": "date_mismatch",
+      "description": "Follow up with Dr. ABC",
+      "note_date": "in two - weeks",
+      "task_date": "in one week",
+      "task_id": "T2"
+    }
+  ],
+  "draft": {
+    "patient_id": "MT-KNEE-SCAN",
+    "language": "en",
+    "text": "Hello,\n\nYour doctor has made changes to your medicines. Please follow the list below exactly. Do not change any dose without speaking to your doctor.\n\nMedicines to take:\n- Coudin: 4 mg a day\n- Vicodin: 5/500 mg q.4-6h\n- Continue your home medications.\n\nYou have a follow-up appointment. Please arrive 15 minutes early and bring your discharge papers.\n- Follow up with Dr. ABC in two - weeks.\n\nYou need a blood test. Please go to the hospital laboratory on the date shown. Bring this message with you.\n- twice weekly lab checks\n\nGet medical help immediately if you notice any of the warning signs below.\n- Call the office or return to the emergency room for any concerns including increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision.",
+    "sources": [
+      "TPL-WARN",
+      "TPL-MED",
+      "TPL-LAB",
+      "TPL-APPT"
+    ]
+  },
+  "verification": {
+    "passed": false,
+    "missing": [
+      "Coudin: drug 'Coudin' not found in source note",
+      "Coudin: 'start' instruction"
+    ],
+    "altered": []
+  },
+  "trace": [
+    "ingest",
+    "extract",
+    "reconcile",
+    "draft",
+    "verify",
+    "queue"
+  ],
+  "llm_mode": "gemini-3.5-flash-lite",
+  "seconds": 4.835
+}

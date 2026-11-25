@@ -1,0 +1,11 @@
+{
+ "P001": {"language":"en","literacy":"basic","tasks":[
+  {"id":"T1","type":"lab","description":"Serum electrolytes (BMP) blood test","due_date":"2026-12-02","authorized_by":"Dr. R (Cardiology)"},
+  {"id":"T2","type":"appointment","description":"Cardiology clinic follow-up","due_date":"2026-12-09","authorized_by":"Dr. R (Cardiology)"},
+  {"id":"T3","type":"imaging","description":"Echocardiogram","due_date":"2026-12-20","authorized_by":"Dr. R (Cardiology)"}]},
+ "P002": {"language":"hi","literacy":"basic","tasks":[
+  {"id":"T1","type":"lab","description":"HbA1c blood test","due_date":"2027-02-20","authorized_by":"Dr. S (Endocrinology)"}]},
+ "P003": {"language":"en","literacy":"standard","tasks":[
+  {"id":"T1","type":"therapy","description":"Physiotherapy session","due_date":"2026-11-28","authorized_by":"Dr. K (Orthopedics)"},
+  {"id":"T2","type":"procedure","description":"Wound check and suture removal","due_date":"2026-12-06","authorized_by":"Dr. K (Orthopedics)"}]}
+}

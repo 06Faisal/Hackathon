@@ -1,0 +1,10 @@
+DISCHARGE SUMMARY (de-identified)
+Patient ID: P001  Age: 64  Sex: M  Specialty: Cardiology
+Diagnosis: Acute decompensated heart failure.
+PLAN:
+1. Start Furosemide 40 mg orally once daily in the morning.
+2. Continue Metoprolol 25 mg twice daily.
+3. Stop Amlodipine.
+4. Repeat serum electrolytes (BMP) blood test on 2026-12-02.
+5. Follow-up appointment with cardiology clinic on 2026-12-09.
+6. Weigh yourself daily. Return to ER immediately if weight gain more than 2 kg in 2 days, chest pain or severe shortness of breath.

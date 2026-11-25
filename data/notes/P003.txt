@@ -1,0 +1,9 @@
+DISCHARGE SUMMARY (de-identified)
+Patient ID: P003  Age: 71  Sex: F  Specialty: Orthopedics
+Procedure: Right total knee replacement.
+PLAN:
+1. Start Apixaban 2.5 mg twice daily for 14 days.
+2. Paracetamol 650 mg every 6 hours as needed for pain.
+3. Physiotherapy session on 2026-11-28.
+4. Wound check and suture removal on 2026-12-05.
+5. Return to ER immediately if calf swelling, fever above 38 C or wound discharge.

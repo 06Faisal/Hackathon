@@ -1,0 +1,84 @@
+{
+  "llm_mode": "gemini-3.5-flash",
+  "notes": 6,
+  "overall_med_recall": "26/26",
+  "per_note": [
+    {
+      "note": "MT-KNEE",
+      "med_recall": "2/2",
+      "meds_missed": [],
+      "followups": "3 found / 2 expected",
+      "warnings": "1 found / 1 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [
+        "missing_task: physical therapy exercises",
+        "date_mismatch: Follow up with Dr. ABC"
+      ],
+      "seconds": 116.963
+    },
+    {
+      "note": "MT-GIBLEED",
+      "med_recall": "11/11",
+      "meds_missed": [],
+      "followups": "3 found / 2 expected",
+      "warnings": "0 found / 0 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [
+        "missing_task: Outpatient followup as arranged"
+      ],
+      "seconds": 99.1
+    },
+    {
+      "note": "MT-CHF",
+      "med_recall": "6/6",
+      "meds_missed": [],
+      "followups": "1 found / 1 expected",
+      "warnings": "1 found / 1 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [
+        "unsupported_task: Repeat chest x-ray"
+      ],
+      "seconds": 38.32
+    },
+    {
+      "note": "MT-CELLULITIS",
+      "med_recall": "3/3",
+      "meds_missed": [],
+      "followups": "2 found / 1 expected",
+      "warnings": "0 found / 0 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [
+        "missing_task: daily wound care and also wrap his leg with an Ace wrap"
+      ],
+      "seconds": 23.284
+    },
+    {
+      "note": "MT-HIP",
+      "med_recall": "1/1",
+      "meds_missed": [],
+      "followups": "3 found / 2 expected",
+      "warnings": "0 found / 0 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [
+        "missing_task: Nursing, Social Work, PT/OT, and nutrition consults"
+      ],
+      "seconds": 69.927
+    },
+    {
+      "note": "MT-GALLBLADDER",
+      "med_recall": "3/3",
+      "meds_missed": [],
+      "followups": "2 found / 2 expected",
+      "warnings": "5 found / 1 expected",
+      "lock_passed": true,
+      "lock_reasons": [],
+      "flags": [],
+      "seconds": 28.514
+    }
+  ]
+}

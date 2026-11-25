@@ -1,0 +1,706 @@
+[
+  {
+    "patient_id": "MT-KNEE",
+    "facts": {
+      "patient_id": "MT-KNEE",
+      "medications": [
+        {
+          "name": "Coumadin",
+          "action": "start",
+          "dose": "4 mg",
+          "frequency": "a day",
+          "duration": null,
+          "source_line": "The patient will be discharged home on Coumadin 4 mg a day as the INR was 1.9 on discharge with twice weekly lab checks."
+        },
+        {
+          "name": "Vicodin",
+          "action": "take",
+          "dose": "5/500 mg take one to two tablets",
+          "frequency": "q.4-6h.",
+          "duration": null,
+          "source_line": "Vicodin 5/500 mg take one to two tablets p.o. q.4-6h."
+        },
+        {
+          "name": "home medications",
+          "action": "start",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "Resume home medications."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "therapy",
+          "description": "physical therapy exercises",
+          "due_date": null,
+          "source_line": "Continue to do physical therapy exercises."
+        },
+        {
+          "type": "lab",
+          "description": "twice weekly lab checks",
+          "due_date": "twice weekly",
+          "source_line": "The patient will be discharged home on Coumadin 4 mg a day as the INR was 1.9 on discharge with twice weekly lab checks."
+        },
+        {
+          "type": "appointment",
+          "description": "follow up with Dr. ABC",
+          "due_date": "in two weeks",
+          "source_line": "The patient is to follow up with Dr. ABC in two weeks."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision",
+          "source_line": "Call the office or return to the emergency room for any concerns including increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "missing_task",
+        "description": "physical therapy exercises",
+        "note_date": null,
+        "task_date": null,
+        "task_id": null
+      },
+      {
+        "status": "matched",
+        "description": "INR lab check twice weekly while on Coumadin",
+        "note_date": "twice weekly",
+        "task_date": null,
+        "task_id": "T1"
+      },
+      {
+        "status": "date_mismatch",
+        "description": "Follow up with Dr. ABC",
+        "note_date": "in two weeks",
+        "task_date": "in one week",
+        "task_id": "T2"
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-KNEE",
+      "language": "en",
+      "text": "Hello! We hope you are feeling well and resting comfortably. \n\nYour doctor has made changes to your medicines. Please follow the list below exactly. Do not change any dose without speaking to your doctor.\n\n**Medicines:**\n* **Coumadin**: start 4 mg a day\n* **Vicodin**: take 5/500 mg take one to two tablets q.4-6h.\n* **home medications**: start\n\n**Follow-Up Care:**\nYou have a follow-up appointment. Please arrive 15 minutes early and bring your discharge papers.\n* **Appointment**: follow up with Dr. ABC in two weeks\n* **Labs**: twice weekly lab checks (due: twice weekly)\n* **Therapy**: physical therapy exercises\n\nGet medical help immediately if you notice any of the warning signs below.\n* **Warning signs**: increased redness, swelling, drainage, fever, or any concerns regarding operation or site of incision\n\nPlease take good care of yourself!",
+      "sources": [
+        "TPL-APPT",
+        "TPL-MED",
+        "TPL-WARN",
+        "EDU-DM"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 116.963
+  },
+  {
+    "patient_id": "MT-GIBLEED",
+    "facts": {
+      "patient_id": "MT-GIBLEED",
+      "medications": [
+        {
+          "name": "Coumadin",
+          "action": "stop",
+          "dose": null,
+          "frequency": null,
+          "duration": "an additional three days after discharge",
+          "source_line": "Coumadin was held during hospital stay and recommendations were given by GI to hold Coumadin for an additional three days after discharge then resume."
+        },
+        {
+          "name": "Coumadin",
+          "action": "stop",
+          "dose": null,
+          "frequency": null,
+          "duration": "through weekend",
+          "source_line": "FOLLOWUP: , The patient to hold Coumadin through weekend."
+        },
+        {
+          "name": "Feosol",
+          "action": "continue",
+          "dose": "325 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "MEDICATIONS: , Feosol 325 mg daily, multivitamins one daily, Protonix 40 mg b.i.d."
+        },
+        {
+          "name": "multivitamins",
+          "action": "continue",
+          "dose": "one",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "MEDICATIONS: , Feosol 325 mg daily, multivitamins one daily, Protonix 40 mg b.i.d."
+        },
+        {
+          "name": "Protonix",
+          "action": "continue",
+          "dose": "40 mg",
+          "frequency": "b.i.d.",
+          "duration": null,
+          "source_line": "MEDICATIONS: , Feosol 325 mg daily, multivitamins one daily, Protonix 40 mg b.i.d."
+        },
+        {
+          "name": "KCl",
+          "action": "continue",
+          "dose": "20 mEq",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " KCl 20 mEq daily, Lasix 40 mg b.i.d."
+        },
+        {
+          "name": "Lasix",
+          "action": "continue",
+          "dose": "40 mg",
+          "frequency": "b.i.d.",
+          "duration": null,
+          "source_line": " KCl 20 mEq daily, Lasix 40 mg b.i.d."
+        },
+        {
+          "name": "atenolol",
+          "action": "continue",
+          "dose": "50 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " atenolol 50 mg daily, Synthroid 80 mcg daily, Actos 30 mg daily, Mevacor 40 mg daily, and lisinopril 20 mg daily."
+        },
+        {
+          "name": "Synthroid",
+          "action": "continue",
+          "dose": "80 mcg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " atenolol 50 mg daily, Synthroid 80 mcg daily, Actos 30 mg daily, Mevacor 40 mg daily, and lisinopril 20 mg daily."
+        },
+        {
+          "name": "Actos",
+          "action": "continue",
+          "dose": "30 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " atenolol 50 mg daily, Synthroid 80 mcg daily, Actos 30 mg daily, Mevacor 40 mg daily, and lisinopril 20 mg daily."
+        },
+        {
+          "name": "Mevacor",
+          "action": "continue",
+          "dose": "40 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " atenolol 50 mg daily, Synthroid 80 mcg daily, Actos 30 mg daily, Mevacor 40 mg daily, and lisinopril 20 mg daily."
+        },
+        {
+          "name": "lisinopril",
+          "action": "continue",
+          "dose": "20 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": " atenolol 50 mg daily, Synthroid 80 mcg daily, Actos 30 mg daily, Mevacor 40 mg daily, and lisinopril 20 mg daily."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "appointment",
+          "description": "outpatient PMD, GI, and Cardiology followup",
+          "due_date": null,
+          "source_line": "The patient was discharged with outpatient PMD, GI, and Cardiology followup."
+        },
+        {
+          "type": "lab",
+          "description": "Followup CBC and INR",
+          "due_date": null,
+          "source_line": "Followup CBC and INR were ordered."
+        },
+        {
+          "type": "appointment",
+          "description": "Outpatient followup as arranged",
+          "due_date": null,
+          "source_line": "Outpatient followup as arranged."
+        }
+      ],
+      "warnings": []
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Outpatient PMD, GI and Cardiology followup",
+        "note_date": null,
+        "task_date": null,
+        "task_id": "T2"
+      },
+      {
+        "status": "matched",
+        "description": "CBC and INR blood test",
+        "note_date": null,
+        "task_date": null,
+        "task_id": "T1"
+      },
+      {
+        "status": "missing_task",
+        "description": "Outpatient followup as arranged",
+        "note_date": null,
+        "task_date": null,
+        "task_id": null
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-GIBLEED",
+      "language": "en",
+      "text": "Hello! We hope you are doing well at home. \n\nYour doctor has made changes to your medicines. Please follow the list below exactly. Do not change any dose without speaking to your doctor.\n\n**Medicines to Stop:**\n* **Coumadin**: Stop/hold for an additional three days after discharge\n* **Coumadin**: Stop/hold through weekend\n\n**Medicines to Continue:**\n* **Feosol**: 325 mg daily\n* **multivitamins**: one daily\n* **Protonix**: 40 mg b.i.d.\n* **KCl**: 20 mEq daily\n* **Lasix**: 40 mg b.i.d.\n* **atenolol**: 50 mg daily\n* **Synthroid**: 80 mcg daily\n* **Actos**: 30 mg daily\n* **Mevacor**: 40 mg daily\n* **lisinopril**: 20 mg daily\n\n**Follow-up Appointments and Labs:**\n* outpatient PMD, GI, and Cardiology followup\n* Followup CBC and INR\n* Outpatient followup as arranged\n\nWishing you a quick and smooth recovery!",
+      "sources": [
+        "TPL-MED"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 99.1
+  },
+  {
+    "patient_id": "MT-CHF",
+    "facts": {
+      "patient_id": "MT-CHF",
+      "medications": [
+        {
+          "name": "Lasix",
+          "action": "take",
+          "dose": "40 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        },
+        {
+          "name": "potassium chloride",
+          "action": "take",
+          "dose": "10 mEq",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        },
+        {
+          "name": "atenolol",
+          "action": "take",
+          "dose": "25 mg",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        },
+        {
+          "name": "aspirin",
+          "action": "take",
+          "dose": "5 grains",
+          "frequency": "daily",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        },
+        {
+          "name": "Ditropan",
+          "action": "take",
+          "dose": "5 mg",
+          "frequency": "b.i.d.",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        },
+        {
+          "name": "Colace",
+          "action": "take",
+          "dose": "100 mg",
+          "frequency": "b.i.d.",
+          "duration": null,
+          "source_line": "He is being discharged home on Lasix 40 mg daily, potassium chloride 10 mEq daily, atenolol 25 mg daily, aspirin 5 grains daily, Ditropan 5 mg b.i.d. and Colace 100 mg b.i.d."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "appointment",
+          "description": "followed in my office",
+          "due_date": "in 1 week",
+          "source_line": "He will be followed in my office in 1 week."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "recurrent fever or chills",
+          "source_line": "He is to notify if recurrent fever or chills."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Office follow-up visit",
+        "note_date": "in 1 week",
+        "task_date": "in 1 week",
+        "task_id": "T1"
+      },
+      {
+        "status": "unsupported_task",
+        "description": "Repeat chest x-ray",
+        "note_date": null,
+        "task_date": "in 2 weeks",
+        "task_id": "T2"
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-CHF",
+      "language": "en",
+      "text": "Hello! We hope you are resting well and feeling better. \n\nHere is a reminder of your daily medications and follow-up plan:\n\n**Your Medications:**\n* Take **Lasix 40 mg daily**\n* Take **potassium chloride 10 mEq daily**\n* Take **atenolol 25 mg daily**\n* Take **aspirin 5 grains daily**\n* Take **Ditropan 5 mg b.i.d.**\n* Take **Colace 100 mg b.i.d.**\n\n**Follow-Up Appointment:**\n* You will be followed in my office **in 1 week**.\n\n**Warning:**\n* Please notify us if you experience **recurrent fever or chills**.\n\nIf you have any questions, please reach out to us. Take good care!",
+      "sources": [
+        "EDU-DM"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 38.32
+  },
+  {
+    "patient_id": "MT-CELLULITIS",
+    "facts": {
+      "patient_id": "MT-CELLULITIS",
+      "medications": [
+        {
+          "name": "doxycycline",
+          "action": "take",
+          "dose": "100 mg p.o.",
+          "frequency": "b.i.d.",
+          "duration": "x10 days",
+          "source_line": "The patient was discharged on doxycycline 100 mg p.o. b.i.d. x10 days."
+        },
+        {
+          "name": "Percocet",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "He was also given prescription for Percocet and OxyContin, picked up at my office."
+        },
+        {
+          "name": "OxyContin",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "He was also given prescription for Percocet and OxyContin, picked up at my office."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "appointment",
+          "description": "Followup",
+          "due_date": "in a couple of weeks",
+          "source_line": "Followup was arranged in a couple of weeks."
+        },
+        {
+          "type": "therapy",
+          "description": "daily wound care and also wrap his leg with an Ace wrap",
+          "due_date": "daily",
+          "source_line": "He is instructed to do daily wound care and also wrap his leg with an Ace wrap."
+        }
+      ],
+      "warnings": []
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Followup office visit",
+        "note_date": "in a couple of weeks",
+        "task_date": "in a couple of weeks",
+        "task_id": "T1"
+      },
+      {
+        "status": "missing_task",
+        "description": "daily wound care and also wrap his leg with an Ace wrap",
+        "note_date": "daily",
+        "task_date": null,
+        "task_id": null
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-CELLULITIS",
+      "language": "en",
+      "text": "Hello! We are following up to check on you and help you keep track of your care plan. \n\n**Your Medicines:**\n* **doxycycline**: 100 mg p.o., b.i.d., x10 days\n* **Percocet**\n* **OxyContin**\n\n**Your Care Routine:**\n* **daily**: daily wound care and also wrap his leg with an Ace wrap\n\n**Your Follow-Up Appointment:**\n* You have a Followup scheduled **in a couple of weeks**.\n\nPlease take care, and reach out to the office if you need anything!",
+      "sources": [
+        "EDU-DM",
+        "EDU-KNEE",
+        "EDU-HF",
+        "TPL-WARN"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 23.284
+  },
+  {
+    "patient_id": "MT-HIP",
+    "facts": {
+      "patient_id": "MT-HIP",
+      "medications": [
+        {
+          "name": "home meds",
+          "action": "continue",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "Resume home meds, DVT prophylaxis, aspirin, and compression stockings."
+        },
+        {
+          "name": "DVT prophylaxis",
+          "action": "continue",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "Resume home meds, DVT prophylaxis, aspirin, and compression stockings."
+        },
+        {
+          "name": "aspirin",
+          "action": "continue",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "Resume home meds, DVT prophylaxis, aspirin, and compression stockings."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "other",
+          "description": "Transfer to ABC for rehab and continued care.",
+          "due_date": null,
+          "source_line": "Transfer to ABC for rehab and continued care."
+        },
+        {
+          "type": "therapy",
+          "description": "Nursing, Social Work, PT/OT, and nutrition consults",
+          "due_date": null,
+          "source_line": "He will need nursing, Social Work, PT/OT, and nutrition consults."
+        },
+        {
+          "type": "appointment",
+          "description": "Follow up Dr. X; call 123-4567 for an appointment.",
+          "due_date": "in one to two weeks",
+          "source_line": "Follow up Dr. X in one to two weeks; call 123-4567 for an appointment."
+        }
+      ],
+      "warnings": []
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Transfer to ABC for rehab with PT/OT",
+        "note_date": null,
+        "task_date": null,
+        "task_id": "T2"
+      },
+      {
+        "status": "missing_task",
+        "description": "Nursing, Social Work, PT/OT, and nutrition consults",
+        "note_date": null,
+        "task_date": null,
+        "task_id": null
+      },
+      {
+        "status": "matched",
+        "description": "Follow up Dr. X",
+        "note_date": "in one to two weeks",
+        "task_date": "in one to two weeks",
+        "task_id": "T1"
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-HIP",
+      "language": "en",
+      "text": "Hello! We hope you are doing well and feeling supported. \n\n**Follow-up Appointments and Care**\nYou have a follow-up appointment. Please arrive 15 minutes early and bring your discharge papers.\n\n* **Follow up Dr. X; call 123-4567 for an appointment.** (Due date: in one to two weeks)\n* **Transfer to ABC for rehab and continued care.**\n* **Nursing, Social Work, PT/OT, and nutrition consults**\n\n**Medicines**\nPlease continue taking your medicines as directed:\n* **home meds** (continue)\n* **DVT prophylaxis** (continue)\n* **aspirin** (continue)\n\nPlease let us know if you have any questions. We are here to help you!",
+      "sources": [
+        "TPL-APPT",
+        "TPL-MED",
+        "EDU-KNEE",
+        "EDU-HF"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 69.927
+  },
+  {
+    "patient_id": "MT-GALLBLADDER",
+    "facts": {
+      "patient_id": "MT-GALLBLADDER",
+      "medications": [
+        {
+          "name": "ciprofloxacin",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": "3 days",
+          "source_line": "I will give her prescription for ciprofloxacin that she can take for 3 days presumptively"
+        },
+        {
+          "name": "omeprazole",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "I have discharged her home with omeprazole and Colace to take over-the-counter for constipation"
+        },
+        {
+          "name": "Colace",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "I have discharged her home with omeprazole and Colace to take over-the-counter for constipation"
+        },
+        {
+          "name": "Percocet",
+          "action": "take",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "we will send her home with Percocet for pain."
+        },
+        {
+          "name": "medications per med rec sheets",
+          "action": "continue",
+          "dose": null,
+          "frequency": null,
+          "duration": null,
+          "source_line": "She can resume her medications per med rec sheets."
+        }
+      ],
+      "follow_ups": [
+        {
+          "type": "lab",
+          "description": "follow up on both urinalysis and cultures",
+          "due_date": null,
+          "source_line": "We will follow up on both urinalysis and cultures."
+        },
+        {
+          "type": "appointment",
+          "description": "follow up with Dr. X",
+          "due_date": "in 2 weeks",
+          "source_line": "She is instructed to follow up with Dr. X in 2 weeks."
+        }
+      ],
+      "warnings": [
+        {
+          "text": "shortness of breath",
+          "source_line": "She needs to call for any shortness of breath, temperature greater than 101.5, chest pain, intractable nausea, vomiting, and abdominal pain, any redness, swelling or foul smelling drainage from her wounds."
+        },
+        {
+          "text": "temperature greater than 101.5",
+          "source_line": "She needs to call for any shortness of breath, temperature greater than 101.5, chest pain, intractable nausea, vomiting, and abdominal pain, any redness, swelling or foul smelling drainage from her wounds."
+        },
+        {
+          "text": "chest pain",
+          "source_line": "She needs to call for any shortness of breath, temperature greater than 101.5, chest pain, intractable nausea, vomiting, and abdominal pain, any redness, swelling or foul smelling drainage from her wounds."
+        },
+        {
+          "text": "intractable nausea, vomiting, and abdominal pain",
+          "source_line": "She needs to call for any shortness of breath, temperature greater than 101.5, chest pain, intractable nausea, vomiting, and abdominal pain, any redness, swelling or foul smelling drainage from her wounds."
+        },
+        {
+          "text": "any redness, swelling or foul smelling drainage from her wounds",
+          "source_line": "She needs to call for any shortness of breath, temperature greater than 101.5, chest pain, intractable nausea, vomiting, and abdominal pain, any redness, swelling or foul smelling drainage from her wounds."
+        }
+      ]
+    },
+    "reconciliation": [
+      {
+        "status": "matched",
+        "description": "Follow up urinalysis and cultures",
+        "note_date": null,
+        "task_date": null,
+        "task_id": "T2"
+      },
+      {
+        "status": "matched",
+        "description": "Follow up with Dr. X",
+        "note_date": "in 2 weeks",
+        "task_date": "in 2 weeks",
+        "task_id": "T1"
+      }
+    ],
+    "draft": {
+      "patient_id": "MT-GALLBLADDER",
+      "language": "en",
+      "text": "Hello! We hope you are resting well and feeling better. Here is a clear summary of your follow-up care instructions.\n\n**Medicines**\nYour doctor has made changes to your medicines. Please follow the list below exactly. Do not change any dose without speaking to your doctor.\n\n* **ciprofloxacin**: take for 3 days\n* **omeprazole**: take\n* **Colace**: take\n* **Percocet**: take\n* **medications per med rec sheets**: continue\n\n---\n\n**Follow-up Appointments & Care**\nYou have a follow-up appointment. Please arrive 15 minutes early and bring your discharge papers.\n\n* **Appointment**: follow up with Dr. X in 2 weeks\n* **Lab care**: follow up on both urinalysis and cultures\n\n---\n\n**Warning Signs**\nGet medical help immediately if you notice any of the warning signs below:\n\n* shortness of breath\n* temperature greater than 101.5\n* chest pain\n* intractable nausea, vomiting, and abdominal pain\n* any redness, swelling or foul smelling drainage from her wounds\n\nPlease reach out if you need any assistance. Take care!",
+      "sources": [
+        "TPL-APPT",
+        "EDU-DM",
+        "TPL-MED",
+        "TPL-WARN"
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "missing": [],
+      "altered": []
+    },
+    "trace": [
+      "ingest",
+      "extract",
+      "reconcile",
+      "draft",
+      "verify",
+      "queue"
+    ],
+    "llm_mode": "gemini-3.5-flash",
+    "seconds": 28.514
+  }
+]

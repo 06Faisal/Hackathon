@@ -8,7 +8,7 @@ def _cli():
     global _client
     if _client is None:
         from google import genai
-        _client = genai.Client(api_key=os.environ["GEMINI_API_KEY"], http_options={"api_version": "v1beta"})
+        _client = genai.Client(api_key=os.environ["GEMINI_API_KEY"], http_options={"api_version": "v1beta", "timeout": 20000})
     return _client
 
 def _cached(kind, prompt, fn):
@@ -26,20 +26,27 @@ def _cached(kind, prompt, fn):
 
 _FAST = {"thinking_config": {"thinking_budget": 0}}  # no "thinking" pass: much lower latency
 
-def _retry(fn, tries=3):
+def _retry(fn, tries=2):
     for i in range(tries):
         try:
             return fn()
         except Exception as e:
-            if i == tries - 1 or not any(c in str(e) for c in ("503", "429", "UNAVAILABLE")):
+            if i == tries - 1 or "RESOURCE_EXHAUSTED" in str(e) or not any(c in str(e) for c in ("503", "UNAVAILABLE")):
                 raise
             time.sleep(1 + i)
 
 
 MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
+_down_until = 0.0
 def available() -> bool:
-    return bool(os.getenv("GEMINI_API_KEY"))
+    """Gemini is used only when a key is set and it has not just failed (quota/outage)."""
+    return bool(os.getenv("GEMINI_API_KEY")) and time.time() >= _down_until
+
+def mark_down(seconds=300):
+    """Circuit breaker: after a Gemini failure use the offline engine for a while instead of retrying every call."""
+    global _down_until
+    _down_until = time.time() + seconds
 
 def generate_json(prompt: str, schema) -> dict:
     def call():

@@ -16,7 +16,8 @@ def pdf_bytes_to_text(data: bytes) -> str:
         pass
     from .. import llm
     if llm.available():
-        return llm.pdf_to_text(data)
+        try: return llm.pdf_to_text(data)
+        except Exception: llm.mark_down()
     try:
         import pytesseract
         from pdf2image import convert_from_bytes

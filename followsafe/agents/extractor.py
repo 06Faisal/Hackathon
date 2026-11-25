@@ -66,7 +66,10 @@ def _rule_extract(pid: str, note: str) -> ExtractedFacts:
 
 def extract(pid: str, note: str) -> ExtractedFacts:
     if llm.available():
-        data = llm.generate_json(PROMPT.format(note=note), ExtractedFacts)
-        data["patient_id"] = pid
-        return ExtractedFacts(**data)
+        try:
+            data = llm.generate_json(PROMPT.format(note=note), ExtractedFacts)
+            data["patient_id"] = pid
+            return ExtractedFacts(**data)
+        except Exception:
+            llm.mark_down()   # Gemini quota/outage: fall back to the rule extractor
     return _rule_extract(pid, note)

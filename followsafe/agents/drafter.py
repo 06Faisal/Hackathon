@@ -30,10 +30,13 @@ def draft(facts: ExtractedFacts, language="en", literacy="basic") -> Draft:
                      [f.description for f in facts.follow_ups] + [w.text for w in facts.warnings])
     kb = retriever().search(query, k=4)
     if llm.available():
-        text = llm.generate_text(PROMPT.format(lit=literacy, lang=language,
-                                               kb="\n".join(d["text"] for d in kb),
-                                               facts=facts.model_dump_json(indent=1)))
-        return Draft(patient_id=facts.patient_id, language=language, text=text, sources=[d["id"] for d in kb])
+        try:
+            text = llm.generate_text(PROMPT.format(lit=literacy, lang=language,
+                                                   kb="\n".join(d["text"] for d in kb),
+                                                   facts=facts.model_dump_json(indent=1)))
+            return Draft(patient_id=facts.patient_id, language=language, text=text, sources=[d["id"] for d in kb])
+        except Exception:
+            llm.mark_down()   # Gemini quota/outage: fall through to the offline template drafter
     h = HEADINGS.get(language, HEADINGS["en"])
     lines = ["Dear patient,", "Thank you for visiting us. Here is a summary of what your doctor asked you to do."]
     tpl = {d["id"]: d["text"] for d in kb}

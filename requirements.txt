@@ -2,6 +2,6 @@ fastapi
 uvicorn
 pydantic>=2
 scikit-learn
+mangum          # ASGI adapter required for FastAPI on Vercel/Lambda
 
-
-google-genai   # only needed when GEMINI_API_KEY is set
+google-genai    # only needed when GEMINI_API_KEY is set

@@ -70,7 +70,10 @@ def _save_results(res): db.kv_set("results", json.dumps(res, ensure_ascii=False)
 
 def run_all(reset=True):
     if reset: db.reset()
-    res = [run_patient(pid, note_path(pid), cfg) for pid, cfg in load_cfg().items()]
+    from concurrent.futures import ThreadPoolExecutor   # patients in parallel: Gemini calls overlap
+    items = list(load_cfg().items())
+    with ThreadPoolExecutor(max_workers=max(1, min(8, len(items)))) as ex:
+        res = list(ex.map(lambda kv: run_patient(kv[0], note_path(kv[0]), kv[1]), items))
     _save_results(res)
     return res
 

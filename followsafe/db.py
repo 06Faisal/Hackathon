@@ -20,11 +20,19 @@ class _Row(dict):
     """Row usable by name or by position, like sqlite3.Row."""
     def __getitem__(self, k): return list(self.values())[k] if isinstance(k, int) else dict.__getitem__(self, k)
 
+import threading
+_LOCK = threading.RLock()
+_PG_CONN = None
+
 class _PG:
-    """Tiny wrapper so the sqlite-style code below runs unchanged on Postgres."""
+    """Tiny wrapper so the sqlite-style code below runs unchanged on Postgres.
+    One connection is reused for the life of the serverless instance (no reconnect per query)."""
     def __init__(self):
+        global _PG_CONN
         import psycopg
-        self.c = psycopg.connect(PG_URL)
+        if _PG_CONN is None or _PG_CONN.closed:
+            _PG_CONN = psycopg.connect(PG_URL, connect_timeout=10)
+        self.c = _PG_CONN
     def execute(self, q, args=()):
         q = q.replace("?", "%s")
         ins = q.lstrip().upper().startswith("INSERT INTO QUEUE")
@@ -38,7 +46,7 @@ class _PG:
     def __enter__(self): return self
     def __exit__(self, et, *a):
         self.c.commit() if et is None else self.c.rollback()
-    def close(self): self.c.close()
+    def close(self): pass  # keep the shared connection open
 
 _SCHEMA_DONE = False
 def conn():
@@ -65,9 +73,19 @@ def conn():
 
 def _tx(fn):
     """Run fn(c) in one transaction and always close the file (Windows cannot reuse open files)."""
-    with closing(conn()) as c:
-        with c:
-            return fn(c)
+    global _PG_CONN
+    with _LOCK:
+        try:
+            with closing(conn()) as c:
+                with c:
+                    return fn(c)
+        except Exception as e:
+            if PG_URL and "connection" in str(e).lower():   # stale pooled connection: reconnect once
+                _PG_CONN = None
+                with closing(conn()) as c:
+                    with c:
+                        return fn(c)
+            raise
 
 def reset():
     # Clear rows instead of deleting the file: Windows cannot delete a SQLite file that is still open.

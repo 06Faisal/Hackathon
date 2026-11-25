@@ -14,14 +14,53 @@ DOCTOR_ONLY = {"book_task": "missing_task", "use_note_date": "date_mismatch", "k
                "cancel_task": "unsupported_task", "keep_task": "unsupported_task"}
 FINAL = ("approved", "rejected", "resolved")
 
+PG_URL = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")  # set by the Neon integration on Vercel
+
+class _Row(dict):
+    """Row usable by name or by position, like sqlite3.Row."""
+    def __getitem__(self, k): return list(self.values())[k] if isinstance(k, int) else dict.__getitem__(self, k)
+
+class _PG:
+    """Tiny wrapper so the sqlite-style code below runs unchanged on Postgres."""
+    def __init__(self):
+        import psycopg
+        self.c = psycopg.connect(PG_URL)
+    def execute(self, q, args=()):
+        q = q.replace("?", "%s")
+        ins = q.lstrip().upper().startswith("INSERT INTO QUEUE")
+        if ins: q += " RETURNING id"
+        cur = self.c.cursor(row_factory=lambda cur: (lambda vals: _Row(zip([d.name for d in cur.description], vals))))
+        cur.execute(q, args)
+        if ins:
+            class _C: pass
+            r = _C(); r.lastrowid = cur.fetchone()["id"]; return r
+        return cur
+    def __enter__(self): return self
+    def __exit__(self, et, *a):
+        self.c.commit() if et is None else self.c.rollback()
+    def close(self): self.c.close()
+
+_SCHEMA_DONE = False
 def conn():
-    DB.parent.mkdir(exist_ok=True)
+    global _SCHEMA_DONE
+    if PG_URL:
+        c = _PG()
+        if not _SCHEMA_DONE:
+            with c:
+                for q in ["CREATE TABLE IF NOT EXISTS queue(id SERIAL PRIMARY KEY, patient_id TEXT, kind TEXT, priority INTEGER, title TEXT, body TEXT, meta TEXT, status TEXT DEFAULT 'pending_review')",
+                          "CREATE TABLE IF NOT EXISTS audit(id SERIAL PRIMARY KEY, ts TEXT, item_id INTEGER, actor TEXT, action TEXT, detail TEXT)",
+                          "CREATE TABLE IF NOT EXISTS kv(k TEXT PRIMARY KEY, v TEXT)"]:
+                    c.execute(q)
+            _SCHEMA_DONE = True
+        return c
+    DB.parent.mkdir(parents=True, exist_ok=True)
     c = sqlite3.connect(DB); c.row_factory = sqlite3.Row
     c.executescript("""
     CREATE TABLE IF NOT EXISTS queue(id INTEGER PRIMARY KEY, patient_id TEXT, kind TEXT,
       priority INTEGER, title TEXT, body TEXT, meta TEXT, status TEXT DEFAULT 'pending_review');
     CREATE TABLE IF NOT EXISTS audit(id INTEGER PRIMARY KEY, ts TEXT, item_id INTEGER,
-      actor TEXT, action TEXT, detail TEXT);""")
+      actor TEXT, action TEXT, detail TEXT);
+    CREATE TABLE IF NOT EXISTS kv(k TEXT PRIMARY KEY, v TEXT);""")
     return c
 
 def _tx(fn):
@@ -123,3 +162,15 @@ def audit(item_id=None):
     if item_id is not None:
         return [dict(r) for r in _tx(lambda c: c.execute("SELECT * FROM audit WHERE item_id=? ORDER BY id", (item_id,)).fetchall())]
     return [dict(r) for r in _tx(lambda c: c.execute("SELECT * FROM audit ORDER BY id").fetchall())]
+
+# ── key/value store for patients config, notes and pipeline results (persists in Postgres) ──
+def kv_get(k):
+    r = _tx(lambda c: c.execute("SELECT v FROM kv WHERE k=?", (k,)).fetchone())
+    return r["v"] if r else None
+
+def kv_set(k, v):
+    _tx(lambda c: c.execute("INSERT INTO kv(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=excluded.v", (k, v)))
+
+def kv_del(k=None, prefix=None):
+    if prefix is not None: _tx(lambda c: c.execute("DELETE FROM kv WHERE k LIKE ?", (prefix + "%",)))
+    else: _tx(lambda c: c.execute("DELETE FROM kv WHERE k=?", (k,)))

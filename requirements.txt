@@ -4,3 +4,4 @@ pydantic>=2
 scikit-learn
 
 google-genai    # only needed when GEMINI_API_KEY is set
+psycopg[binary]   # Postgres driver (used when DATABASE_URL is set)

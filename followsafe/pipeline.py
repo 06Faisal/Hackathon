@@ -47,24 +47,26 @@ PID_RE = re.compile(r"^[A-Za-z0-9_-]{1,20}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 TASK_TYPES = {"lab", "appointment", "imaging", "therapy", "procedure", "other"}
 
+# All mutable state goes through db.kv_* so it persists in Postgres (or local SQLite).
 def load_cfg():
-    if not CFG.exists():
-        CFG.parent.mkdir(parents=True, exist_ok=True); CFG.write_text(SEED.read_text(encoding="utf-8"), encoding="utf-8")
-    return json.loads(CFG.read_text(encoding="utf-8"))
+    v = db.kv_get("patients")
+    if v is None:
+        v = SEED.read_text(encoding="utf-8"); db.kv_set("patients", v)
+    return json.loads(v)
 
 def note_path(pid):
-    p = NOTES / f"{pid}.txt"
-    return p if p.exists() else SEED_NOTES / f"{pid}.txt"
+    txt = db.kv_get(f"note:{pid}")
+    if txt is None: return SEED_NOTES / f"{pid}.txt"
+    NOTES.mkdir(parents=True, exist_ok=True)       # ocr.load_note reads from a path: cache it locally
+    p = NOTES / f"{pid}.txt"; p.write_text(txt, encoding="utf-8"); return p
 
 def reset_demo():
     """Back to the sample data: drop added patients and doctor changes, clear the queue, re-run."""
-    CFG.unlink(missing_ok=True)
-    if NOTES.exists():
-        for f in NOTES.glob("*.txt"): f.unlink()
+    db.kv_del("patients"); db.kv_del(prefix="note:"); db.kv_del("results")
     return run_all()
-def save_cfg(c): CFG.write_text(json.dumps(c, indent=1, ensure_ascii=False), encoding="utf-8")
-def _results(): return json.loads(RESULTS.read_text(encoding="utf-8")) if RESULTS.exists() else []
-def _save_results(res): RESULTS.parent.mkdir(parents=True, exist_ok=True); RESULTS.write_text(json.dumps(res, indent=2, ensure_ascii=False), encoding="utf-8")
+def save_cfg(c): db.kv_set("patients", json.dumps(c, indent=1, ensure_ascii=False))
+def _results(): v = db.kv_get("results"); return json.loads(v) if v else []
+def _save_results(res): db.kv_set("results", json.dumps(res, ensure_ascii=False))
 
 def run_all(reset=True):
     if reset: db.reset()
@@ -102,15 +104,14 @@ def add_patient(pid, note, language="en", literacy="basic", tasks=(), doctor="Do
     if len((note or "").strip()) < 20: raise ValueError("Paste the discharge note (at least a few lines)")
     cfg = load_cfg()
     if pid in cfg or (SEED_NOTES / f"{pid}.txt").exists(): raise ValueError(f"Patient {pid} already exists")
-    NOTES.mkdir(parents=True, exist_ok=True)
-    NOTES.joinpath(f"{pid}.txt").write_text(note.strip() + "\n", encoding="utf-8")
+    db.kv_set(f"note:{pid}", note.strip() + "\n")
     cfg[pid] = {"language": language, "literacy": literacy, "tasks": _clean_tasks(tasks, doctor)}
     save_cfg(cfg)
     return run_one(pid)
 
 def remove_patient(pid):
     cfg = load_cfg(); cfg.pop(pid, None); save_cfg(cfg)
-    NOTES.joinpath(f"{pid}.txt").unlink(missing_ok=True)
+    db.kv_del(f"note:{pid}")
     db.delete_patient(pid)
     _save_results([x for x in _results() if x["patient_id"] != pid])
 

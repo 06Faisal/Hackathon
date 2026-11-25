@@ -7,6 +7,13 @@ from . import db, pipeline
 
 app = FastAPI(title="FollowSafe", description="Human-in-the-loop follow-up coordinator. Never sends messages.")
 
+from fastapi.responses import JSONResponse
+import traceback, logging
+@app.exception_handler(Exception)
+async def _unhandled(request, exc):
+    logging.error("Unhandled error on %s: %s", request.url.path, traceback.format_exc()[-1500:])
+    return JSONResponse(status_code=500, content={"detail": f"{type(exc).__name__}: {exc}"[:400]})
+
 # Resolve static dir – try FOLLOWSAFE_ROOT env var first (set by api/index.py on Vercel),
 # then walk up from __file__, then fall back to cwd.
 def _find_static() -> pathlib.Path:

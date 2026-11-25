@@ -27,7 +27,14 @@ class PatientIn(BaseModel):
     tasks: list[TaskIn] = []
 
 @app.get("/")
-def index(): return FileResponse(STATIC / "index.html")
+def index():
+    html_path = STATIC / "index.html"
+    if not html_path.exists():
+        # Fallback: try relative to CWD (Vercel Lambda working dir)
+        html_path = pathlib.Path("static") / "index.html"
+    if not html_path.exists():
+        raise HTTPException(404, "index.html not found")
+    return FileResponse(str(html_path))
 
 @app.post("/api/run")
 def run(): return pipeline.run_all()

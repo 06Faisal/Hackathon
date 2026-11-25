@@ -1,2 +1,9 @@
-{"rewrites":[{"source":"/(.*)","destination":"/api/index"}],
- "functions":{"api/index.py":{"includeFiles":"{static,data,followsafe}/**"}}}
+{
+  "rewrites": [
+    {"source": "/api/(.*)", "destination": "/api/index"},
+    {"source": "/",        "destination": "/static/index.html"}
+  ],
+  "functions": {
+    "api/index.py": {"includeFiles": "{static,data,followsafe}/**"}
+  }
+}
